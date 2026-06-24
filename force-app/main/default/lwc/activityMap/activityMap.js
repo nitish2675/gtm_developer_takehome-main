@@ -55,7 +55,7 @@ export default class ActivityMap extends LightningElement {
     searchCity = '';
     selectedCategory = 'All';
     selectedGoodFor = 'All';
-    radiusKm = 25;
+    radiusKm = 50;
 
     map;
     markers = [];
