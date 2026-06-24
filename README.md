@@ -97,17 +97,6 @@ sf project deploy start --target-org gtm-org
 
 ---
 
-## What I'd Do Next
-
-- Marker clustering for when there are hundreds of activities
-- A radius slider on the map so users can control the search area
-- Batch Apex to re-run AI extraction when the prompt improves
-- Part 5 (nearby POIs from OpenTripMap) as a "what else is near here" widget
-- Retry logic with backoff for when APIs are temporarily down
-- Jest tests for the LWC component
-
----
-
 ## Test Coverage
 
 | Class                        | Test Class                  | Coverage |
