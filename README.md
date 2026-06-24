@@ -69,15 +69,16 @@ sf project deploy start --target-org gtm-org
 1. Go to Setup → Custom Metadata Types → Integration Setting → Manage Records
    - Create `MistralKey` with your Mistral key in the API_Key field
    - Create `OpenCage` with your OpenCage key in the API_Key field
-2. Assign the permission set:
+2. Assign the permission set (required to use the app):
    ```bash
-   sf org assign permset --name Activity_Locator_User --target-org gtm-org
+   sf org assign permset --name GOTOM_TravelExperiencesApplication --target-org gtm-org
    ```
 3. Import the sample data from `data/sample-activities.csv` using Data Import Wizard
 4. Run the tests:
    ```bash
    sf apex run test --target-org gtm-org --test-level RunLocalTests --code-coverage
    ```
+5. Open the **GOTOM Travel Experience** app from the App Launcher — it has tabs for Suppliers, Activities, and the Activity Map
 
 ---
 
