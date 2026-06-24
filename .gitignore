@@ -1,0 +1,22 @@
+# Salesforce / SFDX
+.sf/
+.sfdx/
+.localdevserver/
+deploy-options.json
+
+# Secrets — never commit API keys or credential records
+**/secrets/**
+*.key
+.env
+
+# Custom Metadata records containing API keys (structure is safe, values are not)
+force-app/main/default/customMetadata/Integration_Setting__mdt.MistralKey.md-meta.xml
+force-app/main/default/customMetadata/Integration_Setting__mdt.OpenCage.md-meta.xml
+force-app/main/default/customMetadata/Integration_Setting.OpenAIKey.md-meta.xml
+force-app/main/default/customMetadata/Integration_Setting.GeminiKey.md-meta.xml
+# Node / Jest
+node_modules/
+
+# OS / editor
+.DS_Store
+*.log

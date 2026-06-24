@@ -1,0 +1,148 @@
+<template>
+    <lightning-card title="Activity Discovery Map" icon-name="standard:location">
+        <!-- Search Controls -->
+        <div class="slds-p-horizontal_medium slds-p-top_small">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <!-- City Search -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-p-bottom_small">
+                    <lightning-input
+                        label="Search City"
+                        placeholder="e.g. Paris, Rome, London..."
+                        value={searchCity}
+                        onchange={handleCityChange}
+                        onkeypress={handleKeyPress}>
+                    </lightning-input>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="slds-col slds-size_1-of-2 slds-medium-size_3-of-12 slds-p-bottom_small">
+                    <lightning-combobox
+                        label="Category"
+                        value={selectedCategory}
+                        options={categoryOptions}
+                        onchange={handleCategoryChange}>
+                    </lightning-combobox>
+                </div>
+
+                <!-- Good For Filter -->
+                <div class="slds-col slds-size_1-of-2 slds-medium-size_3-of-12 slds-p-bottom_small">
+                    <lightning-combobox
+                        label="Good For"
+                        value={selectedGoodFor}
+                        options={goodForOptions}
+                        onchange={handleGoodForChange}>
+                    </lightning-combobox>
+                </div>
+
+                <!-- Search Button -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 slds-p-bottom_small slds-flex-end">
+                    <lightning-button
+                        label="Search"
+                        variant="brand"
+                        onclick={handleSearch}
+                        class="full-width-btn">
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cap Warning -->
+        <template if:true={showCapWarning}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_small">
+                <div class="slds-notify slds-notify_alert slds-alert_warning" role="alert">
+                    <span class="slds-assistive-text">warning</span>
+                    <lightning-icon icon-name="utility:warning" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                    {capWarningMessage}
+                </div>
+            </div>
+        </template>
+
+        <!-- Error State -->
+        <template if:true={errorMessage}>
+            <div class="slds-p-around_medium">
+                <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                    <lightning-icon icon-name="utility:error" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                    {errorMessage}
+                </div>
+            </div>
+        </template>
+
+        <!-- Main Content: Map + List -->
+        <div class="slds-grid slds-p-around_medium map-layout">
+            <!-- Map Panel -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
+                <div class="map-wrapper">
+                    <div class="map-container"></div>
+                    <!-- Loading Spinner -->
+                    <template if:true={isLoading}>
+                        <div class="loading-overlay">
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- List Panel -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-p-left_medium">
+                <div class="list-panel">
+                    <!-- Empty State -->
+                    <template if:true={hasNoResults}>
+                        <div class="slds-align_absolute-center slds-p-around_large empty-state">
+                            <div class="slds-text-align_center">
+                                <lightning-icon icon-name="utility:search" size="large" class="slds-m-bottom_small"></lightning-icon>
+                                <p class="slds-text-heading_small">No activities found</p>
+                                <p class="slds-text-body_small slds-text-color_weak">Try a different city or adjust your filters.</p>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Initial State -->
+                    <template if:false={hasSearched}>
+                        <div class="slds-align_absolute-center slds-p-around_large empty-state">
+                            <div class="slds-text-align_center">
+                                <lightning-icon icon-name="utility:location" size="large" class="slds-m-bottom_small"></lightning-icon>
+                                <p class="slds-text-heading_small">Search for activities</p>
+                                <p class="slds-text-body_small slds-text-color_weak">Enter a city name to discover activities on the map.</p>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Activity List -->
+                    <template if:true={hasActivities}>
+                        <div class="activity-list">
+                            <template for:each={activitiesWithStyle} for:item="activity">
+                                <div key={activity.id}
+                                     data-id={activity.id}
+                                     class={activity.itemClass}
+                                     onclick={handleListItemClick}>
+                                    <div class="slds-grid slds-grid_vertical-align-start">
+                                        <div class="category-dot" style={activity.dotStyle}></div>
+                                        <div class="slds-col">
+                                            <p class="activity-name">{activity.name}</p>
+                                            <p class="activity-meta">{activity.category} &bull; {activity.duration}</p>
+                                            <p class="activity-location">{activity.street}, {activity.city}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <template if:true={hasActivities}>
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+                <div class="legend">
+                    <span class="legend-item"><span class="legend-dot" style="background:#2196F3"></span>Sightseeing</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#9C27B0"></span>History &amp; Culture</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#FF9800"></span>Food &amp; Drink</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#4CAF50"></span>Outdoor</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#E91E63"></span>Family</span>
+                    <span class="legend-item"><span class="legend-dot" style="background:#673AB7"></span>Nightlife</span>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>

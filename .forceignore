@@ -1,0 +1,7 @@
+# LWC Jest tests run locally (sfdx-lwc-jest), never deployed.
+**/__tests__/**
+**/*.test.js
+
+# Local tooling
+**/jsconfig.json
+**/.eslintrc.json
