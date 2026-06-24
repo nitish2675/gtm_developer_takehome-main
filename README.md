@@ -87,7 +87,7 @@ sf project deploy start --target-org gtm-org
 | Choice                                | Reason                                                                                  |
 | ------------------------------------- | --------------------------------------------------------------------------------------- |
 | Master-Detail relationship            | An activity without a supplier makes no sense — this enforces that                      |
-| Geolocation field                     | Lets me write `WHERE DISTANCE(...) < 10` in SOQL — can't do that with two number fields |
+| Geolocation field                     | Lets me write `WHERE DISTANCE(...) < 25` in SOQL — can't do that with two number fields |
 | Mistral instead of Gemini             | Gemini gives zero free quota in EU — literally won't work without a credit card         |
 | Flow button instead of trigger for AI | LLM calls are slow and cost money — user should decide when to run them                 |
 | Queueable for geocoding               | Doesn't block the save, handles bulk, respects Salesforce callout limits                |
