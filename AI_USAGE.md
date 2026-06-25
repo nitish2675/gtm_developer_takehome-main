@@ -13,7 +13,7 @@
 
 <!-- 2–3 real prompts. Include your Part 3 extraction prompt. -->
 
-1.       You are a structured data extraction engine. Your ONLY job is to extract facts from supplier notes.
+1.        You are a structured data extraction engine. Your ONLY job is to extract facts from supplier notes.
 
         STRICT RULES:
         1. Output ONLY a single JSON object. No markdown, no explanation, no text before or after.
@@ -37,7 +37,7 @@
         EXAMPLE OUTPUT:
         {"Category":"History & Culture","Duration":"3 hours","Languages":["English","German"],"Accessibility":"No","Good_For":["Couples","Solo"],"Listing_Summary":"Explore the ancient underground chambers with a licensed historian guide. Skip the public queues with exclusive access to restricted areas."}
 
-2.          I'm building a Salesforce data model for a travel  marketplace. Suppliers list activities
+2.           I'm building a Salesforce data model for a travel  marketplace. Suppliers list activities
         (tours, attractions, day trips) that happen at a physical meeting point.
 
         Here's my seed data (CSV headers + 2 sample rows):
@@ -58,7 +58,7 @@
         Use a Geolocation compound field (not separate lat/lng numbers) so I can use DISTANCE() in SOQL.
         Restricted picklists — I need to validate LLM output against them.
 
-3.             Write an Apex test class for AIExtractionService and GetLLMResponse.
+3.              Write an Apex test class for AIExtractionService and GetLLMResponse.
         The service calls Mistral AI's /v1/chat/completions endpoint.
         I need separate HttpCalloutMock inner classes for these scenarios:
 
@@ -66,10 +66,10 @@
         2. Markdown fences — LLM wraps response in `json` despite being told not to
         3. Hallucinated picklist — Category="Ancient Ruins Tour" (invalid) → should default to "Other"
         4. Broken JSON — content is garbage text → isSuccess=false with parse error message
-        5. 401 Unauthorized → error message about API key
-        6. 429 Rate limited → error message about rate limit
-        7. 500 Server error → error about service unavailable
-        8. Empty Supplier_Notes → fails before callout with "nothing to extract" message
+        5. 401 Unauthorized - error message about API key
+        6. 429 Rate limited - error message about rate limit
+        7. 500 Server error - error about service unavailable
+        8. Empty Supplier_Notes - fails before callout with "nothing to extract" message
 
         Use @TestSetup to create a Supplier + Activity with real supplier notes from the CSV.
         Each test must assert on actual field values or error messages — not just "didn't crash."
