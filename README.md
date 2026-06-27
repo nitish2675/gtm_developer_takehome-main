@@ -41,11 +41,12 @@ A Salesforce app that takes raw, messy supplier notes about travel activities, c
 - Shows a warning if there are more than 50 results ("filter or zoom in to see more")
 - Works on the App Page tab AND on individual Activity record pages (auto-shows nearby activities)
 
-### Part 5 — Skipped on purpose
+### Part 5 — Skipped (intentional prioritization)
 
-- The brief says skipping this costs nothing
-- Parts 1–4 already prove three different integration patterns
-- I used the time to write better tests and make things solid for the live walkthrough
+- The brief explicitly states: "Skipping it costs nothing — a strong Parts 1–4 is what matters"
+- In a real sprint, this would be a backlog item — not in the current sprint priority
+- Parts 1–4 already demonstrate three distinct integration patterns (OpenCage geocoding, Mistral AI extraction, Leaflet map rendering)
+- I used the time to harden tests, error handling, and documentation for production readiness
 
 ---
 
@@ -104,7 +105,10 @@ sf project deploy start --target-org gtm-org
 - Batch Apex to re-run AI extraction when the prompt improves
 - Part 5 (nearby POIs from OpenTripMap) as a "what else is near here" widget
 - Retry logic with backoff for when APIs are temporarily down
-- Jest tests for the LWC component
+- Call OpenTripMap API (free, lat/lng + radius) from the Activity record page
+- Show nearby POIs (museums, restaurants, parks) as a related list or mini-map
+- Same architecture: Named Credential + Custom Metadata for the key, Queueable for async, HttpCalloutMock for tests
+- Could cache results in a junction object to avoid repeated API calls for the same location
 
 ---
 
