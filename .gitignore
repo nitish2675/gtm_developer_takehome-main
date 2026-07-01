@@ -10,8 +10,8 @@ deploy-options.json
 .env
 
 # Custom Metadata records containing API keys (structure is safe, values are not)
-force-app/main/default/customMetadata/Integration_Setting__mdt.MistralKey.md-meta.xml
-force-app/main/default/customMetadata/Integration_Setting__mdt.OpenCage.md-meta.xml
+force-app/main/default/customMetadata/Integration_Setting.MistralKey.md-meta.xml
+force-app/main/default/customMetadata/Integration_Setting.OpenCage.md-meta.xml
 force-app/main/default/customMetadata/Integration_Setting.OpenAIKey.md-meta.xml
 force-app/main/default/customMetadata/Integration_Setting.GeminiKey.md-meta.xml
 # Node / Jest
